@@ -1,0 +1,19 @@
+{
+  "name": "autopilot-for-claude-code",
+  "version": "1.0.0",
+  "description": "Run very large Claude Code tasks unattended across several 5-hour usage windows: pause at 90 %, keep the prompt cache warm, resume after the reset, ask questions on your phone.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.10"
+  },
+  "os": [
+    "win32"
+  ],
+  "scripts": {
+    "test": "node test/run.mjs",
+    "install-autopilot": "node install.mjs",
+    "uninstall-autopilot": "node install.mjs --uninstall"
+  }
+}

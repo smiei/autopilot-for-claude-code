@@ -1,0 +1,22 @@
+{
+  "stopAt": 90,
+  "weeklyStopAt": 90,
+  "pingCeiling": 95,
+  "pingLeadMin": 5,
+  "cacheTtlMin": 60,
+  "resumeGraceSec": 90,
+  "defaultPingCost": 1.0,
+  "maxSleepHours": 5.4,
+  "pauseStyle": "deny-then-brake",
+  "cleanupPorts": null,
+  "permissionMode": "auto",
+  "claudeExe": "",
+  "model": null,
+  "remoteControl": true,
+  "maxRelaunchesPerWindow": 3,
+  "stallMinutes": 20,
+  "checkpointsToKeep": 20,
+  "maxNoProgress": 3,
+  "notify": true,
+  "chainStatusLine": null
+}

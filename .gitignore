@@ -1,0 +1,10 @@
+# runtime state never belongs in the repository (it lives in ~/.claude/autopilot anyway)
+config.json
+usage.json
+seen.json
+simulate.json
+watchdog.json
+watchdog.vbs
+log*.txt
+sessions/
+node_modules/
