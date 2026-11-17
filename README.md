@@ -22,7 +22,15 @@ A run starts at 13:00 in a window that resets at 18:00. At 15:30 the 5-hour usag
 | 17:20 | Second keep-alive. |
 | 18:01 | The window has reset: `AUTOPILOT RESUME`, the model reads its progress file and continues, with a warm cache. |
 
-A keep-alive in a test with an 84k-token context: 3 output tokens, 83,804 tokens read from the cache, 321 written. Pings happen only if the cache would expire before the reset, and only while the 5-hour usage stays below 95 % (the cost of the first ping is measured and used for the check).
+A real run on a Pro plan went like this:
+- **15:07:** paused at 90 %.
+- **16:05:** one keep-alive, five minutes before the cache expired. It did not move the 5-hour usage by a single percentage point.
+- **16:41:** resumed in the same process, 90 seconds after the reset.
+- **17:21:** finished.
+
+A second ping was not needed, because the cache outlived the reset. In a test with an 84k-token context, a keep-alive cost 3 output tokens: 83,804 tokens came from the cache and 321 were written.
+
+Pings happen only if the cache would expire before the reset, and only while the 5-hour usage stays below 95 %. The cost of the first ping is measured and used for that check.
 
 ## Requirements
 
@@ -132,7 +140,14 @@ Only sessions that ran `/autopilot` are affected: in every other session the hoo
 - **The threshold is approximate.** Limits are checked before each tool call, so one long answer can overshoot by a point or two.
 - **Startup dialogs block restarts.** A new project MCP server, a model choice or a trust prompt stops a restarted session. The watchdog only notifies you. Start every new repository once yourself.
 - **Undocumented internals.** The autopilot relies on Claude Code behaviour that is not formally documented: the session registry in `~/.claude/sessions/`, `asyncRewake` waking an idle session, the status line's `rate_limits` / `prompt_cache` fields. A Claude Code update may break it. Run `npm test` after updates of this repository; watch the first pause after Claude Code updates.
-- **Tested:** in-process pause, keep-alive and resume against simulated limits, watchdog restart after a killed process, questions answered on the phone, StopFailure wake-ups with provoked API errors. A real 100 % hard stop could not be provoked on demand.
+- **What has been tested:**
+  - a real pause at 90 % of a Pro plan's 5-hour limit, with keep-alive and an in-process resume after the reset
+  - the same against simulated limits
+  - watchdog restart after a killed process
+  - questions answered on the phone
+  - StopFailure wake-ups with provoked API errors
+
+  A real 100 % hard stop could not be provoked on demand.
 
 ## Terms of service
 
